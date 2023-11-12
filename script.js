@@ -16,32 +16,36 @@ class Hamburger {
   }
 
   sprinkleSeasoning() {
+    this.reset();
     this.tugriks += 15;
   }
 
   pourMayonnaise() {
+    this.reset();
     this.tugriks += 20;
     this.callories += 5;
   }
 
   calculatePrice() {
     if (this.size === "small") {
-      this.price += this.smallHamburger[0];
+      this.tugriks += this.smallHamburger[0];
     } else {
-      this.price += this.bigHamburger[0];
+      this.tugriks += this.bigHamburger[0];
     }
 
-    if (this.topping === "cheese") {
-      console.log("Cheese", smallHamburger);
-      this.price += this.cheeseTopping[0];
-      console.log("Cheese", smallHamburger);
-    } else if (this.topping === "salad") {
-      this.price += this.saladTopping[0];
-    } else {
-      this.price += this.potatoTopping[0];
+    switch (this.topping) {
+      case "cheese":
+        this.tugriks += this.cheeseTopping[0];
+        break;
+      case "salad":
+        this.tugriks += this.saladTopping[0];
+        break;
+      case "potato":
+        this.tugriks += this.potatoTopping[0];
+        break;
     }
 
-    return this.price;
+    return this.tugriks;
   }
 
   calculateCallories() {
@@ -51,15 +55,24 @@ class Hamburger {
       this.callories += this.bigHamburger[1];
     }
 
-    if (this.topping === "cheese") {
-      this.callories += this.cheeseTopping[1];
-    } else if (this.topping === "salad") {
-      this.callories += this.saladTopping[1];
-    } else {
-      this.callories += this.potatoTopping[1];
+    switch (this.topping) {
+      case "cheese":
+        this.callories += this.cheeseTopping[1];
+        break;
+      case "salad":
+        this.callories += this.saladTopping[1];
+        break;
+      case "potato":
+        this.callories += this.potatoTopping[1];
+        break;
     }
 
     return this.callories;
+  }
+
+  reset() {
+    this.tugriks = 0;
+    this.callories = 0;
   }
 }
 
@@ -70,6 +83,17 @@ const hamburger = new Hamburger(size, toppig);
 
 console.log("Callories of your hamburger = ", hamburger.calculateCallories());
 console.log("Price of your hamburger = ", hamburger.calculatePrice());
+
+hamburger.pourMayonnaise();
+
+console.log(
+  "\n\nCallories of your hamburger after added mayonnaise = ",
+  hamburger.calculateCallories()
+);
+console.log(
+  "Price of your hamburger after added mayonnaise = ",
+  hamburger.calculatePrice()
+);
 
 function enterSizeOfHamburger() {
   let sizeOfhamburger = prompt("Enter size of hamburger:", "");
@@ -101,4 +125,6 @@ function enterToppingOfHamburger() {
     );
     toppingOfhamburger = toppingOfhamburger.toLowerCase();
   }
+
+  return toppingOfhamburger;
 }
